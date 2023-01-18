@@ -3,6 +3,9 @@ export default class Project {
         this.title = title;
         this.tasks = [];
     }
+    getTitle() {
+        return this.title;
+    }
     getTask() {
         return this.tasks;
     }

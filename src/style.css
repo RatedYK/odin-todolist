@@ -5,6 +5,17 @@
     border: black solid 1px;
 }
 
+.createProjectPopUpContainer {
+    display: none;
+    padding: 2rem;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    position:fixed;
+    top: 40%;
+    right: 30%;
+}
+
 .container {
     height: 100vh;
     display: grid;
