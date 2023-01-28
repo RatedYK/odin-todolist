@@ -9,7 +9,7 @@ export default class ToDoList {
     }
 
     setProjects(projects) {
-        this.projects = projects;
+        return this.projects = projects;
     }
     
     getProjects() {
@@ -35,5 +35,10 @@ export default class ToDoList {
     addTask(project,task) {
         project.tasks.push(task);
     }
+
+
+    
+
+
 
 }

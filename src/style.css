@@ -108,6 +108,18 @@ h3 {
     grid-template-columns: 1fr 5fr 1fr 1fr 1fr;
 }
 
+.taskInfoContainer {
+    display: none;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    position: fixed;
+    top: 40%;
+    left: 40%;
+    right: 20%;
+}
+
 .footer {
     grid-area: footer;
     display: flex;

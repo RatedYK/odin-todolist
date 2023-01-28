@@ -30,7 +30,7 @@ export default class UI {
 
             desiredProject.tasks.forEach((task) => {
                 tasksContainer.innerHTML += `<div class="task">
-                <input id="taskBox" type="checkbox">
+                <input id="taskBox" ${task.check} type="checkbox">
                 <div class="taskTitle">${task.title}</div>
                 <div class="taskDate">${task.dueDate}</div>
                 <input id="taskEdit" type="image" alt="Edit Task">
@@ -52,6 +52,8 @@ export default class UI {
     }
     //init buttons
     static initButtons() {
+        const body = document.querySelector('body'); 
+
         const openCreateProjectBtn = document.querySelector('#createProject');
         const closeCreateProjectBtn = document.querySelector('.cancelBtn');
         const createProjectForm = document.querySelector('#createProjectForm');
@@ -61,6 +63,11 @@ export default class UI {
         const addTaskBtn = document.querySelector('.addTask');
         const closeAddTaskBtn = document.querySelector('.cancelBtnTask');
         const createTaskForm = document.querySelector('#createTaskForm');
+        const deleteTaskBtn = document.querySelectorAll('#taskDelete');
+
+        const taskCheckBox = document.querySelectorAll('#taskBox');
+
+        body.addEventListener('click', this.closePopUps)
 
         openCreateProjectBtn.addEventListener('click', this.openCreateProject);
         closeCreateProjectBtn.addEventListener('click', this.closeCreateProject);
@@ -75,6 +82,20 @@ export default class UI {
         addTaskBtn.addEventListener('click', this.openCreateTask);
         closeAddTaskBtn.addEventListener('click', this.closeCreateTask);
         createTaskForm.addEventListener('submit', this.createTask);
+        deleteTaskBtn.forEach((btn) => {
+            btn.addEventListener('click', this.deleteTask)
+        })
+
+        taskCheckBox.forEach((box) => {
+            box.addEventListener('change', this.blankTask)
+        })
+        taskCheckBox.forEach(() => {
+            window.addEventListener('DOMContentLoaded', this.blankTask)
+        })
+    }
+    //close all Pop Ups
+    static closePopUps(e) {
+        
     }
 
     //creating projects and tasks
@@ -103,7 +124,7 @@ export default class UI {
         const task = new Task(form.taskTitle.value, form.taskDescription.value, form.taskDueDate.value, form.taskPriority.value, false);
 
         taskContainer.innerHTML += `<div class="task">
-        <input id="taskBox" type="checkbox">
+        <input id="taskBox" ${task.check} type="checkbox">
         <div class="taskTitle">${task.title}</div>
         <div class="taskDate">${task.dueDate}</div>
         <input id="taskEdit" type="image" alt="Edit Task">
@@ -112,24 +133,32 @@ export default class UI {
 
         const project = document.querySelector('.currentProject').innerHTML;
         Storage.saveTaskToProject(project, task);
+        UI.initButtons();
     }
 
     //deleting projects and tasks
     static deleteProject() {
-        const todoList = Storage.getTodoList();
         const parent = this.parentNode;
         const project = parent.querySelector('.newProject').textContent;
 
-        todoList.deleteProject(project);
-
+        Storage.deleteProject(project);
         parent.remove();
-
-        Storage.saveTodoList(todoList);
         
     }
 
+    static deleteTask() {
+        const parent = this.parentNode;
+        const task = parent.querySelector('.taskTitle').textContent;
+        const project = document.querySelector('.currentProject').textContent;
+
+        console.log(task)
+        Storage.deleteTask(project, task)
+        parent.remove();
+    }
+
     //open and close pop ups for create project/task
-    static openCreateProject() {
+    static openCreateProject(e) {
+        e.stopPropagation();
         const popUpContainer = document.querySelector('.createProjectPopUpContainer');
 
         popUpContainer.style.display = 'flex';
@@ -140,7 +169,8 @@ export default class UI {
         popUpContainer.style.display = 'none';
     }
 
-    static openCreateTask() {
+    static openCreateTask(e) {
+        e.stopPropagation();
         const popUpContainer = document.querySelector('.createTaskPopUpContainer');
 
         popUpContainer.style.display = 'flex';
@@ -179,15 +209,38 @@ export default class UI {
 
         desiredProject.tasks.forEach((task) => {
             tasksContainer.innerHTML += `<div class="task">
-            <input id="taskBox" type="checkbox">
+            <input id="taskBox" ${task.check} type="checkbox">
             <div class="taskTitle">${task.title}</div>
             <div class="taskDate">${task.dueDate}</div>
             <input id="taskEdit" type="image" alt="Edit Task">
             <input id="taskDelete" type="image" alt="Delete Task">
             </div>`
         })
-
+        UI.blankTask();
         UI.initButtons();
-
     }
+
+    //task options (opening description, checkbox)
+    static blankTask() {
+
+        const project = document.querySelector('.currentProject').textContent;
+        const tasks = document.querySelectorAll('.task');
+        let check = false;
+
+        //for each task, search the DOM for its checkbox and color the task
+        tasks.forEach((task) => {
+            const box = task.querySelector('#taskBox');
+            if (box.checked === true) {
+                task.style.backgroundColor = 'red';
+                check = true;
+            } else {
+                task.style.backgroundColor = 'white';
+                check = false;
+            }
+            const taskTitle = task.querySelector('.taskTitle').textContent;
+            Storage.checkTask(project, taskTitle, check)
+
+        })
+    }
+        
 }
