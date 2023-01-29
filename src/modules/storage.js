@@ -75,6 +75,14 @@ export default class Storage {
         check ? task.check = 'checked' : task.check = false;
 
         Storage.saveTodoList(todoList);
+    }
 
+    static changePriority(projectName, taskName, priority) {
+        const todoList = this.getTodoList();
+        const task = todoList.findProject(projectName).findTask(taskName);
+
+        task.priority = priority;
+
+        Storage.saveTodoList(todoList);
     }
 }

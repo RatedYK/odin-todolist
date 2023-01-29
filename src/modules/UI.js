@@ -33,8 +33,17 @@ export default class UI {
                 <input id="taskBox" ${task.check} type="checkbox">
                 <div class="taskTitle">${task.title}</div>
                 <div class="taskDate">${task.dueDate}</div>
-                <input id="taskEdit" type="image" alt="Edit Task">
-                <input id="taskDelete" type="image" alt="Delete Task">
+                <div class="myDropDown">
+                    <input id="taskPriorityBtn" type="image" src="./icons/priority.svg" alt="Task Priority">
+                        <div id="dropDown">
+                            <select name="priority" id="priority">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                </div>
+                <input id="taskDelete" type="image" src="./icons/delete.svg" alt="Delete Task">
                 </div>`
             })
 
@@ -52,7 +61,6 @@ export default class UI {
     }
     //init buttons
     static initButtons() {
-        const body = document.querySelector('body'); 
 
         const openCreateProjectBtn = document.querySelector('#createProject');
         const closeCreateProjectBtn = document.querySelector('.cancelBtn');
@@ -65,9 +73,11 @@ export default class UI {
         const createTaskForm = document.querySelector('#createTaskForm');
         const deleteTaskBtn = document.querySelectorAll('#taskDelete');
 
+        const taskTitle = document.querySelectorAll('.taskTitle');
         const taskCheckBox = document.querySelectorAll('#taskBox');
+        const taskPriorityBtn = document.querySelectorAll('#taskPriorityBtn');
+        const taskPrioritySelect = document.querySelectorAll('#priority');
 
-        body.addEventListener('click', this.closePopUps)
 
         openCreateProjectBtn.addEventListener('click', this.openCreateProject);
         closeCreateProjectBtn.addEventListener('click', this.closeCreateProject);
@@ -86,16 +96,38 @@ export default class UI {
             btn.addEventListener('click', this.deleteTask)
         })
 
+
+        taskTitle.forEach((task) => {
+            task.addEventListener('click', this.openTaskInfo)
+        })
         taskCheckBox.forEach((box) => {
             box.addEventListener('change', this.blankTask)
         })
-        taskCheckBox.forEach(() => {
-            window.addEventListener('DOMContentLoaded', this.blankTask)
+        taskPriorityBtn.forEach((btn) => {
+            btn.addEventListener('click', this.openTaskPrioritySelect)
         })
+        taskPrioritySelect.forEach((select)=> {
+            select.addEventListener('change', this.changeTaskPriority)
+            select.addEventListener('change', this.updatePriorityColor)
+        })
+
+        window.addEventListener('DOMContentLoaded', this.blankTask);
+        window.addEventListener('DOMContentLoaded', this.updatePriorityColor)
     }
     //close all Pop Ups
-    static closePopUps(e) {
-        
+    static enableClosePopUps(e) {
+        const body = document.querySelector('body'); 
+        body.addEventListener('click', this.closePopUps)
+    }
+
+    static disableClosePopUps() {
+        const body = document.querySelector('body'); 
+        body.removeEventListener('click', this.closePopUps )
+    }
+
+    static closePopUps() {
+        UI.closeTaskInfo();
+        UI.disableClosePopUps();
     }
 
     //creating projects and tasks
@@ -127,8 +159,17 @@ export default class UI {
         <input id="taskBox" ${task.check} type="checkbox">
         <div class="taskTitle">${task.title}</div>
         <div class="taskDate">${task.dueDate}</div>
-        <input id="taskEdit" type="image" alt="Edit Task">
-        <input id="taskDelete" type="image" alt="Delete Task">
+        <div class="myDropDown">
+            <input id="taskPriorityBtn" type="image" src="./icons/priority.svg" alt="Task Priority">
+                <div id="dropDown">
+                    <select name="priority" id="priority">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+        </div>
+        <input id="taskDelete" type="image" src="./icons/delete.svg" alt="Delete Task">
         </div>`
 
         const project = document.querySelector('.currentProject').innerHTML;
@@ -212,17 +253,58 @@ export default class UI {
             <input id="taskBox" ${task.check} type="checkbox">
             <div class="taskTitle">${task.title}</div>
             <div class="taskDate">${task.dueDate}</div>
-            <input id="taskEdit" type="image" alt="Edit Task">
-            <input id="taskDelete" type="image" alt="Delete Task">
+            <div class="myDropDown">
+                <input id="taskPriorityBtn" type="image" src="./icons/priority.svg" alt="Task Priority">
+                <div id="dropDown">
+                    <select name="priority" id="priority">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+            </div>
+            <input id="taskDelete" type="image" src="./icons/delete.svg" alt="Delete Task">
             </div>`
         })
         UI.blankTask();
         UI.initButtons();
     }
 
-    //task options (opening description, checkbox)
-    static blankTask() {
+    //task options (opening description, checkbox, changing priority)
+    static openTaskInfo(e) {
+        e.stopPropagation();
+        const currentProject = document.querySelector('.currentProject').textContent;
+        const targetTask = e.target.textContent;
+        const taskInfo = document.querySelector('.taskInfoContainer');
+        const task = Storage.getTodoList().findProject(currentProject).findTask(targetTask);
 
+        //create the info on DOM
+        taskInfo.innerHTML = "";
+        for(const key in task) {
+            if (key === 'check') {}
+            else if (key === 'description') {
+                const p = document.createElement('p');
+                p.textContent = task[key];
+                taskInfo.appendChild(p);
+            } else {
+                const h4 = document.createElement('h4');
+                h4.textContent = task[key];
+                taskInfo.appendChild(h4);
+            }
+        }
+        taskInfo.style.display = 'flex';
+        //allow closing of this popup by clicking anywhere
+        UI.enableClosePopUps();
+    }
+
+    static closeTaskInfo() {
+        const taskInfo = document.querySelector('.taskInfoContainer');
+
+        taskInfo.style.display = 'none';
+
+    }
+
+    static blankTask() {
         const project = document.querySelector('.currentProject').textContent;
         const tasks = document.querySelectorAll('.task');
         let check = false;
@@ -239,8 +321,45 @@ export default class UI {
             }
             const taskTitle = task.querySelector('.taskTitle').textContent;
             Storage.checkTask(project, taskTitle, check)
-
         })
     }
+
+    static openTaskPrioritySelect(e) {
+        e.stopPropagation();
+        const taskPriority = e.target
+        const parent = taskPriority.closest('.task');
+        const dropDown = parent.querySelector('#dropDown');
         
+        dropDown.style.display === 'flex' ? dropDown.style.display = 'none' : dropDown.style.display = 'flex';        
+    }
+    
+    static changeTaskPriority(e) {
+        e.stopPropagation();
+        const taskPriority = e.target
+        const priority = this.value;
+        const parent = taskPriority.closest('.task');
+        const taskTitle = parent.querySelector('.taskTitle').textContent;
+        const project = document.querySelector('.currentProject').textContent;
+    
+        Storage.changePriority(project, taskTitle, priority);
+
+        const dropDown = parent.querySelector('#dropDown');
+
+        dropDown.style.display = 'none';
+    }
+
+    static updatePriorityColor() {
+        const priorityFlags = document.querySelectorAll('#taskPriorityBtn');
+        const project = document.querySelector('.currentProject').textContent;
+
+        priorityFlags.forEach((flag) => {
+            const parent = flag.closest('.task');
+            const taskTitle = parent.querySelector('.taskTitle').textContent;
+            const taskPriority = Storage.getTodoList().findProject(project).findTask(taskTitle).priority.toLowerCase();
+
+            //clear any residual colors
+            flag.className = '';
+            flag.classList.add(taskPriority);
+        })
+    }
 }

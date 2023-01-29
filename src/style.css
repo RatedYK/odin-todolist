@@ -5,7 +5,25 @@
     border: black solid 1px;
 }
 
+input[type=image] {
+    max-block-size: 2.5rem;
+    justify-self: center;
+    align-self: center;
+}
+
+input[type=image]:hover {
+    filter: invert(98%) sepia(29%) saturate(6764%) hue-rotate(312deg) brightness(101%) contrast(101%);
+}
+
+input:hover,
+button:hover,
+.taskTitle:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
 .createProjectPopUpContainer {
+    background-color: white;
     display: none;
     padding: 2rem;
     align-items: center;
@@ -17,6 +35,7 @@
 }
 
 .createTaskPopUpContainer {
+    background-color: white;
     display: none;
     justify-content: center;
     align-items: center;
@@ -43,13 +62,19 @@
 }
 
 .header {
+    background-color: orange;
     grid-area: header;
     padding: 1rem;
     display: flex;
     align-items: flex-end;
 }
 
+.logo {
+    width: 3rem;
+}
+
 .main {
+    overflow: scroll;
     grid-area: main;
     display: grid;
     grid-template-columns: 1fr 3fr;
@@ -96,23 +121,56 @@ h3 {
 }
 
 .tasksContainer {
+    height: 100%;
     padding: 1rem;
     display: grid;
     grid-template-rows: 2rem 2rem 3rem;
     grid-auto-rows: 3rem;
     gap: 1rem;
+    overflow: scroll;
 }
 
 .task {
     display: grid;
-    grid-template-columns: 1fr 5fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 6fr 2fr 0.5fr 0.5fr;
+    max-height: 3rem;
+}
+
+.taskTitle,
+.taskDate {
+    font-size: clamp(1rem, 2vw, 3vw);
+    align-self: center;
+    justify-self: center;
+}
+
+#taskPriorityBtn.low {
+    filter: invert(77%) sepia(59%) saturate(395%) hue-rotate(63deg) brightness(110%) contrast(100%);
+}
+
+#taskPriorityBtn.medium {
+    filter: invert(99%) sepia(86%) saturate(910%) hue-rotate(343deg) brightness(107%) contrast(107%);
+}
+
+#taskPriorityBtn.high {
+    filter: invert(68%) sepia(86%) saturate(4411%) hue-rotate(324deg) brightness(98%) contrast(103%);
+}
+
+
+.myDropDown {
+    position: relative;
+}
+
+#dropDown {
+    display: none;
+    position: absolute;
+    z-index: 1;
 }
 
 .taskInfoContainer {
     display: none;
     background-color: white;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
     padding: 1rem;
     position: fixed;
     top: 40%;
