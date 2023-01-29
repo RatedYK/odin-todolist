@@ -16,12 +16,13 @@ export default class UI {
              //for tasks
             const tasksContainer = document.querySelector('.tasksContainer');
             const currentProject = document.createElement('h2');
-            const addTaskBtn = document.createElement('button');
+            const addTaskBtn = document.createElement('input');
             const desiredProject = todoList.findProject('Home');
             
             tasksContainer.innerHTML = '';
-            currentProject.textContent = 'Home'
-            addTaskBtn.textContent = '+ Add Task';
+            currentProject.textContent = 'Home';
+            addTaskBtn.type = 'image';
+            addTaskBtn.src = '../../dist/icons/plus.svg'
             currentProject.classList.add('currentProject');
             addTaskBtn.classList.add('addTask');
 
@@ -53,7 +54,7 @@ export default class UI {
                 if (project.title === 'Home' || project.title === 'Today' || project.title === 'Week') return;
                 newProjectsContainer.innerHTML += `<div class="buttonContainer">
                                                    <button type="button" class="btn newProject">${project.title}</button>
-                                                   <button type="button" class="btn deleteProject">X</button>
+                                                   <input type="image" class="btn deleteProject" src="./icons/delete.svg">
                                                    </div>`
             })
 
@@ -141,7 +142,7 @@ export default class UI {
         
         newProjectsContainer.innerHTML += `<div class="buttonContainer">
                                            <button type="button" class="btn newProject">${project.title}</button>
-                                           <button type="button" class="btn deleteProject">X</button>
+                                           <input type="image" class="btn deleteProject" src="./icons/delete.svg">
                                            </div>`
         Storage.saveProject(project);
         UI.initButtons();
@@ -228,7 +229,7 @@ export default class UI {
         //construct DOM for new project page
         const tasksContainer = document.querySelector('.tasksContainer');
         const currentProject = document.createElement('h2');
-        const addTaskBtn = document.createElement('button');
+        const addTaskBtn = document.createElement('input');
 
         //find the project
         const clickedProject = e.target.innerHTML;
@@ -239,7 +240,8 @@ export default class UI {
         //construct DOM for new project page
         tasksContainer.innerHTML = '';
         currentProject.textContent = desiredProject.title;
-        addTaskBtn.textContent = '+ Add Task';
+        addTaskBtn.type = 'image';
+        addTaskBtn.src = '../../dist/icons/plus.svg';
         currentProject.classList.add('currentProject');
         addTaskBtn.classList.add('addTask');
             //hide the add task button for Today and Week tabs
