@@ -1,3 +1,8 @@
+:root {
+    --main-color: #ff9e3d;
+    --sub-color: #006DCC60;
+}
+
 * {
     box-sizing: border-box;
     padding: 0px;
@@ -13,6 +18,7 @@ input, button {
 input[type=text], input[type=date], select, textarea {
     padding: 10px;
     border-radius: 20px;
+    border: solid var(--sub-color) 2px;
 }
 
 input[type=image] {
@@ -32,7 +38,8 @@ input[type=image]:hover {
 
 input:hover,
 button:hover,
-.taskTitle:hover {
+.taskTitle:hover,
+textarea:hover {
     transform: scale(1.1);
     cursor: pointer;
 }
@@ -48,7 +55,7 @@ button:hover,
 }
 
 #createProjectForm {
-    background-color: #FDB75050;
+    background-color: var(--main-color);
     padding: 2rem;
     border-radius: 20px;
     box-shadow: 0px 5px 3px grey;
@@ -58,17 +65,35 @@ button:hover,
     display: none;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
     position: fixed;
-    top: 40%;
+    top: 30%;
     left: 40%;
     right: 20%;
 }
 
+
 #createTaskForm {
+    padding: 2rem;
+    background-color: var(--main-color);
+    border-radius: 20px;
     display: flex;
+    gap: 3px;
     flex-direction: column;
 
+}
+
+.confirm, .cancel {
+    box-shadow: 0px 5px 3px black;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.confirm {
+    background-color: #77DD77;
+}
+
+.cancel {
+    background-color: #FF2E2E;
 }
 
 .container {
@@ -81,7 +106,7 @@ button:hover,
 }
 
 .header {
-    background-color: orange;
+    background-color: var(--main-color);
     grid-area: header;
     padding: 1rem;
     display: flex;
@@ -105,7 +130,7 @@ button:hover,
 .projects {
     display: grid;
     grid-template-rows: 1fr auto 1fr;
-    background-color: #FDB75095;
+    background-color: var(--sub-color);
     color: white;
     box-shadow: 1px 0px 5px grey;
 }
@@ -184,6 +209,9 @@ h3 {
     display: grid;
     grid-template-columns: 1fr 6fr 2fr 0.5fr 0.5fr;
     max-height: 3rem;
+    border: solid black 1px;
+    border-radius: 30px;
+    padding: 3px;
 }
 
 .taskTitle,

@@ -233,6 +233,14 @@ export default class UI {
 
         //find the project
         const clickedProject = e.target.innerHTML;
+            //hide the add task button for Today and Week tabs
+        if (clickedProject === 'Today') {
+            addTaskBtn.style.display = 'none';
+            Storage.updateToday();
+        } else if (clickedProject === 'Week') {
+            addTaskBtn.style.display = 'none';
+            Storage.updateWeek();
+        }
         const todoList = Storage.getTodoList();
         const desiredProject = todoList.findProject(clickedProject);
        
@@ -244,8 +252,6 @@ export default class UI {
         addTaskBtn.src = '../../dist/icons/plus.svg';
         currentProject.classList.add('currentProject');
         addTaskBtn.classList.add('addTask');
-            //hide the add task button for Today and Week tabs
-        if (clickedProject === 'Today' || clickedProject === 'Week') addTaskBtn.style.display = 'none';
 
         tasksContainer.appendChild(currentProject);
         tasksContainer.appendChild(addTaskBtn);

@@ -51,6 +51,82 @@ export default class Storage {
         Storage.saveTodoList(todoList);
     }
 
+    static updateToday() {
+        const todoList = this.getTodoList();
+        const allTasks = [];
+
+        //formats the date into the below shape
+        let today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            const yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd; 
+
+        //clear old memory of today
+        todoList.findProject('Today').tasks = [];
+        todoList.findProject('Week').tasks = [];
+
+        //find and get all tasks pushed onto the allTasks array
+        todoList
+            .getProjects()
+            .map((project) => {
+                project
+                    .getTasks()
+                    .map((task) => {
+                        allTasks.push(task)
+                    })
+            })
+        
+        //if the tasks are today then push onto the today project object
+        allTasks.forEach((task) => {
+            if (task.dueDate === today) {
+                todoList.findProject('Today').tasks.push(task);
+            }
+        })
+        Storage.saveTodoList(todoList);
+    }
+
+    static updateWeek() {
+        const todoList = this.getTodoList();
+        const allTasks = [];
+        
+        //checks if the date is this week
+        const isThisWeek = (date) => {
+            const testToday = new Date();
+            const startOfWeek = new Date(testToday.setDate(testToday.getDate() - testToday.getDay()));
+            const endOfWeek = new Date(testToday.setDate(testToday.getDate() + (6 - testToday.getDay())));
+
+            return date >= startOfWeek && date <= endOfWeek;
+        }
+        
+    
+        //clear old memory of today
+        todoList.findProject('Week').tasks = [];
+        todoList.findProject('Today').tasks = [];
+
+        //find and get all tasks pushed onto the allTasks array
+        todoList
+            .getProjects()
+            .map((project) => {
+                project
+                    .getTasks()
+                    .map((task) => {
+                        allTasks.push(task)
+                    })
+            })
+        
+        //if the tasks are this week then push onto the week project object
+        allTasks.forEach((task) => {
+            
+            if (isThisWeek(new Date(task.dueDate))) {
+                todoList.findProject('Week').tasks.push(task);
+            }
+        })
+        Storage.saveTodoList(todoList);
+
+        
+    }
+
     //***TASKS****
     static deleteTask(projectName, taskName) {
         const todoList = this.getTodoList();
