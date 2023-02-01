@@ -116,6 +116,7 @@ export default class Storage {
             })
         
         //if the tasks are this week then push onto the week project object
+        //**CHANGE TO FILTER */
         allTasks.forEach((task) => {
             
             if (isThisWeek(new Date(task.dueDate))) {

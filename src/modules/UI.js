@@ -174,8 +174,10 @@ export default class UI {
         </div>`
 
         const project = document.querySelector('.currentProject').innerHTML;
+        form.reset()
         Storage.saveTaskToProject(project, task);
         UI.initButtons();
+        UI.updatePriorityColor();
     }
 
     //deleting projects and tasks
@@ -207,6 +209,10 @@ export default class UI {
     }
     static closeCreateProject() {
         const popUpContainer = document.querySelector('.createProjectPopUpContainer');
+        const form = document.querySelector('#createProjectForm');
+
+        //clear input
+        form.reset();
 
         popUpContainer.style.display = 'none';
     }
@@ -214,6 +220,13 @@ export default class UI {
     static openCreateTask(e) {
         e.stopPropagation();
         const popUpContainer = document.querySelector('.createTaskPopUpContainer');
+        const form = document.querySelector('#createTaskForm');
+        const dueDate = form.querySelector('#taskDueDate');
+
+        //blanks out dates that are in the past
+        dueDate.setAttribute('min', (new Date).toISOString().split('T')[0]);
+        //clear inputs
+        form.reset();
 
         popUpContainer.style.display = 'flex';
     }
@@ -275,6 +288,7 @@ export default class UI {
             </div>`
         })
         UI.blankTask();
+        UI.updatePriorityColor();
         UI.initButtons();
     }
 
@@ -321,10 +335,10 @@ export default class UI {
         tasks.forEach((task) => {
             const box = task.querySelector('#taskBox');
             if (box.checked === true) {
-                task.style.backgroundColor = 'red';
+                task.classList.add('blank');
                 check = true;
             } else {
-                task.style.backgroundColor = 'white';
+                task.classList.remove('blank');
                 check = false;
             }
             const taskTitle = task.querySelector('.taskTitle').textContent;

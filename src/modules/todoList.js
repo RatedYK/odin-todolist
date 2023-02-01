@@ -35,10 +35,4 @@ export default class ToDoList {
     addTask(project,task) {
         project.tasks.push(task);
     }
-
-
-    
-
-
-
 }

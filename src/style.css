@@ -1,6 +1,8 @@
 :root {
     --main-color: #ff9e3d;
     --sub-color: #006DCC60;
+    --form-color: #FFFFFF;
+    --confirm-color: #43B0F1;
 }
 
 * {
@@ -25,6 +27,10 @@ input[type=image] {
     max-block-size: 2.5rem;
     justify-self: center;
     align-self: center;
+}
+
+input[type=checkbox] {
+    margin: 5px;
 }
 
 form button {
@@ -55,10 +61,11 @@ textarea:hover {
 }
 
 #createProjectForm {
-    background-color: var(--main-color);
+    background-color: var(--form-color);
     padding: 2rem;
     border-radius: 20px;
     box-shadow: 0px 5px 3px grey;
+    border: black 1px solid;
 }
 
 .createTaskPopUpContainer {
@@ -74,26 +81,28 @@ textarea:hover {
 
 #createTaskForm {
     padding: 2rem;
-    background-color: var(--main-color);
+    background-color: var(--form-color);
     border-radius: 20px;
     display: flex;
     gap: 3px;
     flex-direction: column;
+    border: black 1px solid;
 
 }
 
 .confirm, .cancel {
-    box-shadow: 0px 5px 3px black;
+    color: white;
+    box-shadow: 0px 5px 3px grey;
     font-weight: 600;
     letter-spacing: 1px;
 }
 
 .confirm {
-    background-color: #77DD77;
+    background-color: var(--confirm-color);
 }
 
 .cancel {
-    background-color: #FF2E2E;
+    background-color: black;
 }
 
 .container {
@@ -151,7 +160,7 @@ textarea:hover {
 .newProject {
     padding: 1rem;
     background: none;
-    font-size: large;
+    font-size: x-large;
     border: none;
     font-weight: 700;
     text-shadow: grey 1px 0 10px;;
@@ -195,7 +204,7 @@ h3 {
     height: 100%;
     padding: 1rem;
     display: grid;
-    grid-template-rows: 2rem 2rem 3rem;
+    grid-template-rows: 2rem;
     grid-auto-rows: 3rem;
     gap: 1rem;
     overflow: scroll;
@@ -211,7 +220,15 @@ h3 {
     max-height: 3rem;
     border: solid black 1px;
     border-radius: 30px;
-    padding: 3px;
+    padding: 0px;
+    box-shadow: 1px 0px 5px var(--sub-color);
+}
+
+.task.blank {
+    color: lightslategray;
+    background-color: #BDC3CB70;
+    border: #BDC3CB solid 1px;
+    text-decoration: line-through;
 }
 
 .taskTitle,
@@ -249,11 +266,13 @@ h3 {
     background-color: white;
     flex-direction: column;
     justify-content: center;
-    padding: 1rem;
+    padding: 2rem;
     position: fixed;
     top: 40%;
     left: 40%;
     right: 20%;
+    border: solid black 1px;
+    border-radius: 5px;
 }
 
 .footer {
@@ -262,4 +281,13 @@ h3 {
     justify-content: center;
     align-items: center;
     border-top: grey solid 1px;
+}
+
+.credits {
+    gap: 5px;
+    text-decoration: none;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
