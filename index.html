@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Odin Project - To Do List</title>
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <div class="createProjectPopUpContainer">
+        <form action="" id="createProjectForm">
+            <label for="projectTitle"></label>
+            <input type="text" id="projectTitle" name="projectTitle" placeholder="Project Name" required>
+            <button type="submit" class="confirmBtn confirm btn">Confirm</button>
+            <button type="button" class="cancelBtn cancel btn">Cancel</button>
+        </form>
+    </div>
+    <div class="createTaskPopUpContainer">
+        <form action="" id="createTaskForm">
+            <input type="text" id="taskTitle" name="taskTitle" placeholder="Task Title" required>
+            <textarea name="taskDescription" id="taskDescription" placeholder="Description" cols="30" rows="5"></textarea>
+            <input type="date" id="taskDueDate" name="taskDueDate">
+            <select name="taskPriority" id="taskPriority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button type="submit" class="confirmBtnTask confirm btn">Confirm</button>
+            <button type="button" class="cancelBtnTask cancel btn">Cancel</button>
+        </form>
+    </div>
+    <div class="taskInfoContainer">
+        <h4 class="infoTitle">Title</h4>
+        <h4 class="infoDueDate">Due Date</h4>
+        <h4 class="infoPriority">Priority</h4>
+        <p class="infoInfo">Description</p>
+    </div>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">ToDo</h1>
+            <img src="./icons/logo.svg" alt="ToDo Logo" class="logo">
+        </header>
+        <main class="main">
+            <div class="projects">
+                <div class="mainContainer">
+                    <button type="button" class="btn newProject">Home</button>
+                    <button type="button" class="btn newProject">Today</button>
+                    <button type="button" class="btn newProject">Week</button>
+                </div>
+                <div class="projectsContainer">
+                    <h3>Projects</h3>
+                    <div class="newProjectsContainer">
+                        
+                    </div>
+                </div>
+                <div class="createButtonContainer">
+                    <input type="image" id="createProject" class="btn project" src="./icons/plus.svg">
+                </div>
+            </div>
+
+            <div class="tasksContainer">
+                <h2 class="currentProject">Home</h2>
+                <input type="image" class="addTask" src="./icons/plus.svg">
+                <div class="task">
+                    <div class="myDropDown">
+                        <input id="taskPriorityBtn" type="image" src="./icons/priority.svg" alt="Task Priority">
+                        <div id="dropDown">
+                            <label for="priority">Change Priority</label>
+                            <select name="priority" id="priority">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input id="taskDelete" type="image" src="./icons/delete.svg" alt="Delete Task">
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <div><a href="https://github.com/RatedYK/odin-todolist" class="credits"><img src="./icons/github.png" alt="GitHub Logo">Made By RatedYK</a></div>
+        </footer>
+    </div>
+</body>
+</html>
