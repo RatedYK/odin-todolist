@@ -142,6 +142,10 @@ export default class Storage {
         const todoList = this.getTodoList();
         //find the project and push the task onto the array
         todoList.addTask(todoList.findProject(projectName), task);
+        if (projectName !== 'Home') {
+            //also add task to Home file if the project is not already there.
+            todoList.addTask(todoList.findProject('Home'), task);
+        }
         Storage.saveTodoList(todoList);
     }
 
