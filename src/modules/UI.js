@@ -22,7 +22,7 @@ export default class UI {
             tasksContainer.innerHTML = '';
             currentProject.textContent = 'Home';
             addTaskBtn.type = 'image';
-            addTaskBtn.src = '../../dist/icons/plus.svg'
+            addTaskBtn.src = './icons/plus.svg'
             currentProject.classList.add('currentProject');
             addTaskBtn.classList.add('addTask');
 
@@ -262,7 +262,7 @@ export default class UI {
         tasksContainer.innerHTML = '';
         currentProject.textContent = desiredProject.title;
         addTaskBtn.type = 'image';
-        addTaskBtn.src = '../../dist/icons/plus.svg';
+        addTaskBtn.src = './icons/plus.svg';
         currentProject.classList.add('currentProject');
         addTaskBtn.classList.add('addTask');
 
